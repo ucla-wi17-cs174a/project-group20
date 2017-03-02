@@ -18,6 +18,7 @@ Declare_Any_Class( "Phong_or_Gouraud_Shader",
         if( g_state.gouraud === undefined ) { g_state.gouraud = g_state.color_normals = false; }    // Keep the flags seen by the shader program
         gl.uniform1i( g_addrs.GOURAUD_loc,         g_state.gouraud      );                          // up-to-date and make sure they are declared.
         gl.uniform1i( g_addrs.COLOR_NORMALS_loc,   g_state.color_normals);
+        gl.uniform1i( g_addrs.FLAT_SHADING_loc,    g_state.flat_shading );
 
         gl.uniform4fv( g_addrs.shapeColor_loc,     material.color       );    // Send a desired shape-wide color to the graphics card
         gl.uniform1f ( g_addrs.ambient_loc,        material.ambient     );
@@ -53,7 +54,7 @@ Declare_Any_Class( "Phong_or_Gouraud_Shader",
           varying vec3 N, E, pos;
 
           uniform float ambient, diffusivity, shininess, smoothness, animation_time, attenuation_factor[N_LIGHTS];
-          uniform bool GOURAUD, COLOR_NORMALS, COLOR_VERTICES;    // Flags for alternate shading methods
+          uniform bool GOURAUD, COLOR_NORMALS, COLOR_VERTICES, FLAT_SHADING;    // Flags for alternate shading methods
 
           uniform vec4 lightPosition[N_LIGHTS], lightColor[N_LIGHTS], shapeColor;
           varying vec4 VERTEX_COLOR;
@@ -91,14 +92,22 @@ Declare_Any_Class( "Phong_or_Gouraud_Shader",
               dist[i]  = lightPosition[i].w > 0.0 ? distance((camera_transform * lightPosition[i]).xyz, pos) : distance( attenuation_factor[i] * -lightPosition[i].xyz, object_space_pos.xyz );
             }
 
+            // If using flat shading, just add diffuse lighting
+            if (FLAT_SHADING)
+            {
+              VERTEX_COLOR = vec4(ambient * shapeColor.rgb, shapeColor.a);
+              VERTEX_COLOR.rgb += diffusivity * dot(L[0], N) * lightColor[0].rgb;
+              return;
+            }
+
             if( GOURAUD )         // Gouraud mode?  If so, finalize the whole color calculation here in the vertex shader, one per vertex, before we even break it down to pixels in the fragment shader.
             {
               VERTEX_COLOR = vec4( shapeColor.xyz * ambient, shapeColor.w);
               for(int i = 0; i < N_LIGHTS; i++)
               {
                 float attenuation_multiplier = 1.0 / (1.0 + attenuation_factor[i] * (dist[i] * dist[i]));
-                float diffuse  = 0.0;                                                                                 // TODO
-                float specular = 0.0;                                                                                 // TODO
+                float diffuse  = max(dot(L[i], N), 0.0);
+                float specular = pow(max(dot(N, H[i]), 0.0), smoothness);
 
                 VERTEX_COLOR.xyz += attenuation_multiplier * ( shapeColor.xyz * diffusivity * diffuse + lightColor[i].xyz * shininess * specular );
               }
@@ -128,11 +137,11 @@ Declare_Any_Class( "Phong_or_Gouraud_Shader",
           varying vec3 N, E, pos;
 
           uniform sampler2D texture;
-          uniform bool GOURAUD, COLOR_NORMALS, COLOR_VERTICES, USE_TEXTURE;
+          uniform bool GOURAUD, COLOR_NORMALS, COLOR_VERTICES, USE_TEXTURE, FLAT_SHADING;
 
           void main()
           {
-            if( GOURAUD || COLOR_NORMALS )    // Bypass phong lighting if we're only interpolating predefined colors across vertices
+            if( GOURAUD || COLOR_NORMALS || FLAT_SHADING)    // Bypass phong lighting if we're only interpolating predefined colors across vertices
             {
               gl_FragColor = VERTEX_COLOR;
               return;
@@ -143,9 +152,9 @@ Declare_Any_Class( "Phong_or_Gouraud_Shader",
             for( int i = 0; i < N_LIGHTS; i++ )
             {
               float attenuation_multiplier = 1.0 / (1.0 + attenuation_factor[i] * (dist[i] * dist[i]));
-              float diffuse  = 0.0;                                                                                 // TODO
-              float specular = 0.0;                                                                                 // TODO
-
+              float diffuse  = max(dot(L[i], N), 0.0);
+              float specular = pow(max(dot(N, H[i]), 0.0), smoothness);
+              
               gl_FragColor.xyz += attenuation_multiplier * (shapeColor.xyz * diffusivity * diffuse  + lightColor[i].xyz * shininess * specular );
             }
             gl_FragColor.a = gl_FragColor.w;

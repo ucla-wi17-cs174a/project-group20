@@ -1,8 +1,8 @@
 Declare_Any_Class( "Scene",  // An example of a displayable object that our class Canvas_Manager can manage.  This one draws the scene's 3D shapes.
   { 'construct': function( context )
       { this.shared_scratchpad    = context.shared_scratchpad;
-        shapes_in_use.branch = new Capped_Cylinder(1, 6);
-        shapes_in_use.flower = new Subdivision_Sphere(3);
+        shapes_in_use.branch = new Capped_Cylinder(1, 20);
+        shapes_in_use.flower = new Subdivision_Sphere(6);
         
       },
     'display': function(time)
@@ -13,10 +13,11 @@ Declare_Any_Class( "Scene",  // An example of a displayable object that our clas
 
         shaders_in_use[ "Default" ].activate();
 
-        //graphics_state.lights.push( new Light( vec4(  30*light_orbit[0],  30*light_orbit[1],  34*light_orbit[0], 1 ), Color( 0, .4, 0, 1 ), 100000 ) );
+        graphics_state.lights = [];
+        graphics_state.lights.push(new Light(vec4(-4, 0, 5, 1), new Color(1, 1, 1), 100000));
 
-        var branchMaterial = new Material(Color(0.5, 0.5, 0.5, 1.0), .4, .4, .8, 40, "img/stem.png");
-        var flowerMaterial = new Material(Color(0.5, 0.5, 0.5, 1.0), .4, .4, .8, 40, "img/flower.jpg");
+        var branchMaterial = new Material(Color(0.5, 0.5, 0.5, 1.0), 0.4, 1, 0, 40, "img/stem.png");
+        var flowerMaterial = new Material(Color(0.5, 0.5, 0.5, 1.0), 0.4, 1, 0, 40, "img/flower.jpg");
 
         branch_model_transform = mult(branch_model_transform, translation(0, -4, 5));
         branch_model_transform = mult(branch_model_transform, rotation(90, vec3(1, 0, 0)));
