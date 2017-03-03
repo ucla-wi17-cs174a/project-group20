@@ -8,11 +8,11 @@ Declare_Any_Class( "Scene",  // An example of a displayable object that our clas
 			rules: [],
 			matrix_stack: [],
 			scale_stack: [],
-			scale_amt: 0.2,
-			rotate_amt: 30,
-            branch_width: 0.05,
-            branch_length: 1,
-            flower_scale: 0.2
+			scale_amt: 0.2, // S / s scale amount (0 - 0.5)
+			rotate_amt: 30, // branch angle (0 - 180)
+            branch_width: 0.05, // radius of branch (0.01 - 0.5)
+            branch_length: 1, // length of branch (0.5 - 5)
+            flower_scale: 0.2 // size of flowers (0.1 - 0.5)
 		} );
 
 		this.rules["A"] = "sL[+ALF][-ALF]";
