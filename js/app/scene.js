@@ -12,10 +12,12 @@ Declare_Any_Class( "Scene",  // An example of a displayable object that our clas
 			rotate_amt: 30, // branch angle (0 - 180)
             branch_width: 0.05, // radius of branch (0.01 - 0.5)
             branch_length: 1, // length of branch (0.5 - 5)
-            flower_scale: 0.2 // size of flowers (0.1 - 0.5)
+            flower_scale: 0.2, // size of flowers (0.1 - 0.5)
+            global_rotation: 0, // current angle
+            rotation_speed: 30 // rotation speed of the tree in degrees/sec (0 - 90)
 		} );
 
-		this.rules["A"] = "sL[+ALF][-ALF]";
+		this.rules["A"] = "sL[*[+ALF][-ALF]][/[+ALF][-ALF]]";
 
       },
     'display': function(time)
@@ -34,7 +36,7 @@ Declare_Any_Class( "Scene",  // An example of a displayable object that our clas
 
         ///////////////////////////////////////////////////////////////////////
         //                    GENERATE L SYSTEM TO GIVEN DEPTH               //
-        // ////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////
         var l_system = this.generate_system("A", 3);
         //console.log(l_system);
         //var l_system = "LF+LF+LF";
@@ -42,12 +44,16 @@ Declare_Any_Class( "Scene",  // An example of a displayable object that our clas
 
         ///////////////////////////////////////////////////////////////////////
         //                          RENDER L SYSTEM                          //
-        // ////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////
 
-		// generate tree
 		var m_scale = 1;
-		var m_matrix = mat4();
 
+        // Tree rotation
+        var d = 0.001 * this.shared_scratchpad.graphics_state.animation_delta_time;
+        this.global_rotation = (this.global_rotation + this.rotation_speed*d) % 360;
+		var m_matrix = rotation(this.global_rotation, [0, 1, 0]);
+
+		// Generate Tree
 		for (var x = 0; x < l_system.length; x++) {
 			var c = l_system[x];
 			switch(c) {
