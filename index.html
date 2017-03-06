@@ -20,8 +20,12 @@ index.html - The web page document containing the canvas (drawing surface), that
           
       shaders_in_use[ "Default"     ] = new Phong_or_Gouraud_Shader( g_state );    // Put all our shader programs in the GPU.
                                                                                 // IMPORTANT: -- You have to include all your new images in here:
-      texture_filenames_to_load.push( "img/stem.png" );                             // Put all our texture images in the GPU.
-      texture_filenames_to_load.push( "img/flower.jpg" );
+      texture_filenames_to_load.push( "img/branch_green.png" );                             // Put all our texture images in the GPU.
+      texture_filenames_to_load.push( "img/branch_brown.jpg" );
+
+      texture_filenames_to_load.push( "img/flower_red.jpg" );
+      texture_filenames_to_load.push( "img/flower_blue.jpg" );
+      texture_filenames_to_load.push( "img/flower_yellow.jpg" );
       for( var i = 0; i < texture_filenames_to_load.length; i++ ) textures_in_use[ texture_filenames_to_load[i] ] = ( new Texture( texture_filenames_to_load[i], false ) );
 
       main_canvas.register_display_object( new Scene            ( main_canvas ) );  // objects to their master "Canvas_Manager" object -- which OpenGL calls upon every time a
