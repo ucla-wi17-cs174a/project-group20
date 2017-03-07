@@ -4,17 +4,30 @@ Declare_Any_Class( "Scene",  // An example of a displayable object that our clas
         shapes_in_use.branch = new Capped_Cylinder(1, 20);
         shapes_in_use.flower = new Subdivision_Sphere(6);
 		
+		// this.define_data_members( {
+		// 	rules: [],
+		// 	matrix_stack: [],
+		// 	scale_stack: [],
+		// 	scale_amt: 0.2, // S / s scale amount (0 - 0.5)
+		// 	rotate_amt: 30, // branch angle (0 - 180)
+  //           branch_width: 0.05, // radius of branch (0.01 - 0.5)
+  //           branch_length: 1, // length of branch (0.5 - 5)
+  //           flower_scale: 0.2, // size of flowers (0.1 - 0.5)
+  //           global_rotation: 0, // current angle
+  //           rotation_speed: 30 // rotation speed of the tree in degrees/sec (0 - 90)
+		// } );
+
 		this.define_data_members( {
 			rules: [],
 			matrix_stack: [],
 			scale_stack: [],
-			scale_amt: 0.2, // S / s scale amount (0 - 0.5)
-			rotate_amt: 30, // branch angle (0 - 180)
-            branch_width: 0.05, // radius of branch (0.01 - 0.5)
-            branch_length: 1, // length of branch (0.5 - 5)
-            flower_scale: 0.2, // size of flowers (0.1 - 0.5)
+			scale_amt: scaleInput, // S / s scale amount (0 - 0.5)
+			rotate_amt: branchAngleInput, // branch angle (0 - 180)
+            branch_width: branchWidthInput, // radius of branch (0.01 - 0.5)
+            branch_length: branchLengthInput, // length of branch (0.5 - 5)
+            flower_scale: flowerSizeInput, // size of flowers (0.1 - 0.5)
             global_rotation: 0, // current angle
-            rotation_speed: 30 // rotation speed of the tree in degrees/sec (0 - 90)
+            rotation_speed: rotationSpeedInput // rotation speed of the tree in degrees/sec (0 - 90)
 		} );
 
 		this.rules["A"] = "sL[*[+ALF][-ALF]][/[+ALF][-ALF]]";
@@ -22,6 +35,13 @@ Declare_Any_Class( "Scene",  // An example of a displayable object that our clas
       },
     'display': function(time)
       {
+      	this.scale_amt = scaleInput;
+      	this.flower_scale = flowerSizeInput;
+      	this.rotate_amt = branchAngleInput;
+      	this.branch_width = branchWidthInput;
+      	this.branch_length = branchLengthInput;
+      	this.rotation_speed = rotationSpeedInput;
+
         var graphics_state  = this.shared_scratchpad.graphics_state,
             branch_model_transform = mat4(),
             flower_model_transform = mat4();

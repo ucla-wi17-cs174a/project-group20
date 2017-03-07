@@ -1,4 +1,4 @@
-canvas {
+/*canvas {
     padding-left: 0;
     padding-right: 0;
     margin-top: 10em;
@@ -7,7 +7,32 @@ canvas {
     margin-bottom: 5em;
     display: block;
 }
+*/
 
 body {
-    background-color: #444444;
+	font-family: 'Montserrat', sans-serif;
+	background-color: #444444;
+	color: white;
+}
+
+.content-padding {
+	padding-left: 10%;
+	padding-right: 10%;
+}
+
+.title {
+	text-align: center;
+}
+
+.canvas {
+	border-style: solid;
+}
+
+.settings {
+	margin-left: 10%;
+}
+
+footer {
+	padding-top: 1%;
+	text-align: center;
 }
