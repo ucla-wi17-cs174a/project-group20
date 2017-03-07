@@ -6,9 +6,9 @@ index.html - The web page document containing the canvas (drawing surface), that
 <meta charset="UTF-8"/>
 <script type="text/javascript" src="js/includes/MV.js"                    ></script>  <!--  Javascript "include" files.  Any code in them gets executed as part of the page loading.  //-->
 <script type="text/javascript" src="js/includes/tinywebgl-ucla.js"        ></script>
-<script type="text/javascript" src="js/includes/example-displayables.js"  ></script>
+<script type="text/javascript" src="js/includes/camera.js"  ></script>
 <script type="text/javascript" src="js/includes/example-shapes.js"        ></script>
-<script type="text/javascript" src="js/includes/example-shaders.js"       ></script>
+<script type="text/javascript" src="js/includes/shaders.js"       ></script>
 <script type="text/javascript" src="js/includes/surfacesofrevolution.js"  ></script>
 <script type="text/javascript" src="js/includes/subdivisionsphere.js"     ></script>
 
@@ -48,7 +48,7 @@ index.html - The web page document containing the canvas (drawing surface), that
       for( var i = 0; i < texture_filenames_to_load.length; i++ ) textures_in_use[ texture_filenames_to_load[i] ] = ( new Texture( texture_filenames_to_load[i], false ) );
 
       main_canvas.register_display_object( new Scene            ( main_canvas ) );  // objects to their master "Canvas_Manager" object -- which OpenGL calls upon every time a
-      main_canvas.register_display_object( new Example_Camera   ( main_canvas ) );  // draw / keyboard / mouse event happens.
+      main_canvas.register_display_object( new My_Camera   ( main_canvas ) );  // draw / keyboard / mouse event happens.
       main_canvas.render();
     }
 
@@ -101,7 +101,7 @@ index.html - The web page document containing the canvas (drawing surface), that
 										<tr>
 											<td><b>Flower Size:</b></td>
 											<td>
-												<input type="range" id="flowerSize" value="0.2" min="0.1" max="0.5" step="0.05">
+												<input type="range" id="flowerSize" value="0.2" min="0.1" max="2" step="0.01">
 											</td>
 										</tr>
 										<tr>
@@ -110,7 +110,7 @@ index.html - The web page document containing the canvas (drawing surface), that
 										<tr>
 			  								<td><b>Branch Width:</b></td>
 			  								<td>
-			  									<input type="range" id="branchWidth" value="0.2" min="0.05" max="0.5" step="0.05">
+			  									<input type="range" id="branchWidth" value="0.2" min="0.05" max="0.5" step="0.01">
 											</td>
 										</tr>
 										<tr>
@@ -119,7 +119,7 @@ index.html - The web page document containing the canvas (drawing surface), that
 										<tr>
 			  								<td><b>Branch Length:</b></td>
 			  								<td>
-			  									<input type="range" id="branchLength" value="2" min="0.5" max="5" step="0.5">
+			  									<input type="range" id="branchLength" value="2" min="0.5" max="5" step="0.1">
 											</td>
 										</tr>
 										<tr>
@@ -128,7 +128,7 @@ index.html - The web page document containing the canvas (drawing surface), that
 										<tr>
 			  								<td><b>Branch Angle:</b></td>
 			  								<td>
-			  									<input type="range" id="branchAngle" value="30" min="0" max="180" step="10">
+			  									<input type="range" id="branchAngle" value="30" min="0" max="90" step="1">
 											</td>
 										</tr>
 										<tr>
@@ -137,7 +137,7 @@ index.html - The web page document containing the canvas (drawing surface), that
 										<tr>
 			  								<td><b>Rotation Speed:</b></td>
 			  								<td>
-			  									<input type="range" id="rotationSpeed" value="30" min="0" max="360" step="5">
+			  									<input type="range" id="rotationSpeed" value="30" min="0" max="360" step="1">
 											</td>
 										</tr>
 										<tr>
@@ -153,6 +153,7 @@ index.html - The web page document containing the canvas (drawing surface), that
 		</div>
 
 		<footer>
+            <p>Camera controls are: W/A/S/D to pan up/left/down/right, I/O to zoom in/out, R to reset to default camera view</p>
 			<p>Created by Adam Jones, Wenlong Xiong, and Nathan Yang for UCLA's Winter 2017 CS 174A</p>
 		</footer>
 	</body>

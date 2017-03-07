@@ -15,22 +15,22 @@ Declare_Any_Class( "Scene",  // An example of a displayable object that our clas
             flower_scale: flowerSizeInput, // size of flowers (0.1 - 0.5)
             global_rotation: 0, // current angle
             rotation_speed: rotationSpeedInput, // rotation speed of the tree in degrees/sec (0 - 90)
-            flower_color: flowerColorInput, // 'blue' 'red' 'yellow'
-            branch_color: branchColorInput // 'brown' 'green'
+            flower_color: 'blue', // 'blue' 'red' 'yellow'
+            branch_color: 'brown' // 'brown' 'green'
 		} );
 
 		this.rules["A"] = "sL[*[+ALF][-ALF]][/[+ALF][-ALF]]";
       },
     'display': function(time)
       {
-      	this.scale_amt = scaleInput;
+      	this.scale_amt = 0.5-scaleInput;
       	this.flower_scale = flowerSizeInput;
       	this.rotate_amt = branchAngleInput;
       	this.branch_width = branchWidthInput;
       	this.branch_length = branchLengthInput;
       	this.rotation_speed = rotationSpeedInput;
-        this.flower_color = flowerColorInput;
-        this.branch_color = branchColorInput;
+        this.flower_color = 'blue';
+        this.branch_color = 'brown';
 
         var graphics_state  = this.shared_scratchpad.graphics_state,
             branch_model_transform = mat4(),
@@ -41,8 +41,28 @@ Declare_Any_Class( "Scene",  // An example of a displayable object that our clas
         graphics_state.lights = [];
         graphics_state.lights.push(new Light(vec4(-4, 0, 5, 1), new Color(255/255, 147/255, 41/255), 100));
 
-        var branchMaterial = new Material(Color(0.5, 0.5, 0.5, 1.0), 0.4, 1, 0.4, 10, "img/branch_brown.jpg");
-        var flowerMaterial = new Material(Color(0.5, 0.5, 0.5, 1.0), 0.4, 1, 0.4, 10, "img/flower_blue.jpg");
+        var branchMaterial;
+        var flowerMaterial;
+
+        // Select flower color
+        if (this.flower_color == 'red') {
+            flowerMaterial = new Material(Color(0.5, 0.5, 0.5, 1.0), 0.4, 1, 0.4, 10, "img/flower_red.jpg");
+        }
+        else if (this.flower_color == 'yellow') {
+            flowerMaterial = new Material(Color(0.5, 0.5, 0.5, 1.0), 0.4, 1, 0.4, 10, "img/flower_yellow.jpg");
+        }
+        else {
+            flowerMaterial = new Material(Color(0.5, 0.5, 0.5, 1.0), 0.4, 1, 0.4, 10, "img/flower_blue.jpg");
+        }
+
+        // Select branch color
+        if (this.branch_color == 'green') {
+            branchMaterial = new Material(Color(0.5, 0.5, 0.5, 1.0), 0.4, 1, 0.4, 10, "img/branch_green.jpg");
+        }
+        else {
+            branchMaterial = new Material(Color(0.5, 0.5, 0.5, 1.0), 0.4, 1, 0.4, 10, "img/branch_brown.jpg");
+        }
+        
 
         ///////////////////////////////////////////////////////////////////////
         //                    GENERATE L SYSTEM TO GIVEN DEPTH               //
@@ -62,6 +82,7 @@ Declare_Any_Class( "Scene",  // An example of a displayable object that our clas
         var d = 0.001 * this.shared_scratchpad.graphics_state.animation_delta_time;
         this.global_rotation = (this.global_rotation + this.rotation_speed*d) % 360;
 		var m_matrix = rotation(this.global_rotation, [0, 1, 0]);
+        m_matrix = mult(translation(0, -6, 0), m_matrix);
 
 		// Generate Tree
 		for (var x = 0; x < l_system.length; x++) {
