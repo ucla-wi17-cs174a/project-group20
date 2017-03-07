@@ -1,7 +1,7 @@
 Declare_Any_Class( "Scene",  // An example of a displayable object that our class Canvas_Manager can manage.  This one draws the scene's 3D shapes.
   { 'construct': function( context )
       { this.shared_scratchpad    = context.shared_scratchpad;
-        shapes_in_use.branch = new Capped_Cylinder(1, 20);
+        shapes_in_use.branch = new Capped_Cylinder(1, 6);
         shapes_in_use.flower = new Subdivision_Sphere(6);
 
 		this.define_data_members( {
@@ -20,7 +20,6 @@ Declare_Any_Class( "Scene",  // An example of a displayable object that our clas
 		} );
 
 		this.rules["A"] = "sL[*[+ALF][-ALF]][/[+ALF][-ALF]]";
-
       },
     'display': function(time)
       {
@@ -40,10 +39,10 @@ Declare_Any_Class( "Scene",  // An example of a displayable object that our clas
         shaders_in_use[ "Default" ].activate();
 
         graphics_state.lights = [];
-        graphics_state.lights.push(new Light(vec4(-4, 0, 5, 1), new Color(1, 1, 1), 100000));
+        graphics_state.lights.push(new Light(vec4(-4, 0, 5, 1), new Color(255/255, 147/255, 41/255), 100));
 
-        var branchMaterial = new Material(Color(0.5, 0.5, 0.5, 1.0), 0.4, 1, 0, 40, "img/stem.png");
-        var flowerMaterial = new Material(Color(0.5, 0.5, 0.5, 1.0), 0.4, 1, 0, 40, "img/flower.jpg");
+        var branchMaterial = new Material(Color(0.5, 0.5, 0.5, 1.0), 0.4, 1, 0.4, 10, "img/branch_brown.jpg");
+        var flowerMaterial = new Material(Color(0.5, 0.5, 0.5, 1.0), 0.4, 1, 0.4, 10, "img/flower_blue.jpg");
 
         ///////////////////////////////////////////////////////////////////////
         //                    GENERATE L SYSTEM TO GIVEN DEPTH               //
