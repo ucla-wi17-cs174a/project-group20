@@ -19,6 +19,8 @@ index.html - The web page document containing the canvas (drawing surface), that
 	var branchLengthInput = 2;
 	var branchAngleInput = 30;
 	var rotationSpeedInput = 30;
+	var flowerColorInput = 'blue';
+	var branchColorInput = 'brown';
 </script>
 
 <script type="text/javascript" src="js/app/setValues.js"	></script>
@@ -139,6 +141,27 @@ index.html - The web page document containing the canvas (drawing surface), that
 			  								<td>
 			  									<input type="range" id="rotationSpeed" value="30" min="0" max="360" step="5">
 											</td>
+										</tr>
+										<tr>
+											<td><br></td>
+										</tr>
+										<tr>
+			  								<td><b>Flower Color:</b></td>
+			  								<td>
+			  									<input type="button" value="Red" onclick="setFlowerColor('red')">
+			  									<input type="button" value="Blue" onclick="setFlowerColor('blue')">
+			  									<input type="button" value="Yellow" onclick="setFlowerColor('yellow')">
+											</td>
+										</tr>
+										<tr>
+											<td><br></td>
+										</tr>
+										<tr>
+			  								<td><b>Branch Color:</b></td>
+			  								<td>
+			  									<input type="button" value="Brown" onclick="setBranchColor('brown')">
+			  									<input type="button" value="Green" onclick="setBranchColor('green')">
+			  								</td>
 										</tr>
 										<tr>
 											<td><br></td>

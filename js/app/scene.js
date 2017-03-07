@@ -15,8 +15,8 @@ Declare_Any_Class( "Scene",  // An example of a displayable object that our clas
             flower_scale: flowerSizeInput, // size of flowers (0.1 - 0.5)
             global_rotation: 0, // current angle
             rotation_speed: rotationSpeedInput, // rotation speed of the tree in degrees/sec (0 - 90)
-            flower_color: flowerColorInput, // 'blue' 'red' 'yellow'
-            branch_color: branchColorInput // 'brown' 'green'
+            // flower_color: flowerColorInput, // 'blue' 'red' 'yellow'
+            // branch_color: branchColorInput // 'brown' 'green'
 		} );
 
 		this.rules["A"] = "sL[*[+ALF][-ALF]][/[+ALF][-ALF]]";
@@ -29,8 +29,8 @@ Declare_Any_Class( "Scene",  // An example of a displayable object that our clas
       	this.branch_width = branchWidthInput;
       	this.branch_length = branchLengthInput;
       	this.rotation_speed = rotationSpeedInput;
-        this.flower_color = flowerColorInput;
-        this.branch_color = branchColorInput;
+        // this.flower_color = flowerColorInput;
+        // this.branch_color = branchColorInput;
 
         var graphics_state  = this.shared_scratchpad.graphics_state,
             branch_model_transform = mat4(),

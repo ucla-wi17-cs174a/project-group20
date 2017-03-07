@@ -27,3 +27,13 @@ function setRotationSpeed() {
 	rotationSpeedInput = document.getElementById("rotationSpeed").value;
 	console.log("Rotation Speed: " + rotationSpeedInput);
 }
+
+function setFlowerColor(color) {
+	flowerColorInput = color;
+	console.log("Flower Color: " + flowerColorInput);
+}
+
+function setBranchColor(color) {
+	branchColorInput = color;
+	console.log("Branch Color: " + branchColorInput);
+}
