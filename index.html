@@ -2,7 +2,8 @@
 index.html - The web page document containing the canvas (drawing surface), that launches your javascript files, and hides the vertex and fragment shader programs in some strings. //-->
 <!DOCTYPE html>
 <html>
-<head>  <meta charset="UTF-8"/>
+<head>  
+<meta charset="UTF-8"/>
 <script type="text/javascript" src="js/includes/MV.js"                    ></script>  <!--  Javascript "include" files.  Any code in them gets executed as part of the page loading.  //-->
 <script type="text/javascript" src="js/includes/tinywebgl-ucla.js"        ></script>
 <script type="text/javascript" src="js/includes/example-displayables.js"  ></script>
@@ -11,10 +12,28 @@ index.html - The web page document containing the canvas (drawing surface), that
 <script type="text/javascript" src="js/includes/surfacesofrevolution.js"  ></script>
 <script type="text/javascript" src="js/includes/subdivisionsphere.js"     ></script>
 
+<script type="text/javascript">
+	var scaleInput = 0.2;
+	var flowerSizeInput = 0.2;
+	var branchWidthInput = 0.2;
+	var branchLengthInput = 2;
+	var branchAngleInput = 30;
+	var rotationSpeedInput = 30;
+</script>
+
+<script type="text/javascript" src="js/app/setValues.js" 				  ></script>
 <script type="text/javascript" src="js/app/scene.js"                      ></script>
+
 <script type="text/javascript"> "use strict"  
   window.onload = function init()           // ********************* OUR WHOLE PROGRAM'S ENTRY POINT ********************* 
     {	
+		document.getElementById("scale").addEventListener("input", setScaleAmt, false);
+		document.getElementById("flowerSize").addEventListener("input", setFlowerSize, false);
+		document.getElementById("branchWidth").addEventListener("input", setBranchWidth, false);
+		document.getElementById("branchLength").addEventListener("input", setBranchLength, false);
+		document.getElementById("branchAngle").addEventListener("input", setBranchAngle, false);
+		document.getElementById("rotationSpeed").addEventListener("input", setRotationSpeed, false);
+
       var main_canvas = new Canvas_Manager( "gl-canvas", Color( 0, 0, 0, 1 ) ),    // Make the master canvas manager.  Set your background color here too.
           g_state = main_canvas.shared_scratchpad.graphics_state;
           
@@ -37,7 +56,100 @@ index.html - The web page document containing the canvas (drawing surface), that
 
 <link rel="stylesheet"    href="css/style.css"   type="text/css" />
 <link rel="shortcut icon" href="img/favicon.png" type="image/png"/>
-</head><body>
-<canvas id="gl-canvas" width="960" height="540"></canvas><p>
-</body>
+
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+<title>CS 174A: Term Project - Group 20</title>
+
+</head>
+
+<body>
+		<div class="title">
+			<h1>CS 174A: Term Project</h1>
+			<h2>Group 20</h2>
+		</div>
+
+		<div class="content-padding">
+			<table>
+				<tbody>
+					<tr>
+	 					<td class="canvas">
+	  						<canvas id="gl-canvas" style="border: none;" width="600" height="500"></canvas> <!-- 960, 540-->
+						</td>
+						<td>
+							<div class="settings">
+								<table>
+									<tbody>
+										<tr>
+											<td><br></td>
+										</tr>
+										<tr>
+											<td><b>Scale:</b></td>
+											<td>
+												<input type="range" id="scale" value="0.2" min="0" max="0.5" step="0.05">
+											</td>
+										</tr>
+										<tr>
+											<td><br></td>
+										</tr>
+										<tr>
+											<td><b>Flower Size:</b></td>
+											<td>
+												<input type="range" id="flowerSize" value="0.2" min="0.1" max="0.5" step="0.05">
+											</td>
+										</tr>
+										<tr>
+											<td><br></td>
+										</tr>
+										<tr>
+			  								<td><b>Branch Width:</b></td>
+			  								<td>
+			  									<input type="range" id="branchWidth" value="0.2" min="0.05" max="0.5" step="0.05">
+											</td>
+										</tr>
+										<tr>
+											<td><br></td>
+										</tr>			
+										<tr>
+			  								<td><b>Branch Length:</b></td>
+			  								<td>
+			  									<input type="range" id="branchLength" value="2" min="0.5" max="5" step="0.5">
+											</td>
+										</tr>
+										<tr>
+											<td><br></td>
+										</tr>			
+										<tr>
+			  								<td><b>Branch Angle:</b></td>
+			  								<td>
+			  									<input type="range" id="branchAngle" value="30" min="0" max="180" step="10">
+											</td>
+										</tr>
+										<tr>
+											<td><br></td>
+										</tr>			
+										<tr>
+			  								<td><b>Rotation Speed:</b></td>
+			  								<td>
+			  									<input type="range" id="rotationSpeed" value="30" min="0" max="360" step="5">
+											</td>
+										</tr>
+										<tr>
+											<td><br></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<footer>
+			<p>Created by Adam Jones, Wenlong Xiong, and Nathan Yang for UCLA's Winter 2017 CS 174A</p>
+		</footer>
+	</body>
 </html>
