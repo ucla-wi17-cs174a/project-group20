@@ -21,3 +21,13 @@ function setBranchAngle() {
 function setRotationSpeed() {
 	rotationSpeedInput = document.getElementById("rotationSpeed").value;
 }
+
+function setFlowerColor(color) {
+	flowerColorInput = color;
+	console.log("Flower Color: " + flowerColorInput);
+}
+
+function setBranchColor(color) {
+	branchColorInput = color;
+	console.log("Branch Color: " + branchColorInput);
+}
