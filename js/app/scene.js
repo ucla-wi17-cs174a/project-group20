@@ -15,11 +15,17 @@ Declare_Any_Class( "Scene",  // An example of a displayable object that our clas
             flower_scale: flowerSizeInput, // size of flowers (0.1 - 0.5)
             global_rotation: 0, // current angle
             rotation_speed: rotationSpeedInput, // rotation speed of the tree in degrees/sec (0 - 90)
-            //flower_color: 'blue', // 'blue' 'red' 'yellow'
-            //branch_color: 'brown' // 'brown' 'green'
             flower_color: flowerColorInput, // 'blue' 'red' 'yellow'
-            branch_color: branchColorInput // 'brown' 'green'
+            branch_color: branchColorInput, // 'brown' 'green'
+            materials: []
+
 		} );
+
+        this.materials['red'] = new Material(Color(0.5, 0.5, 0.5, 1.0), 0.4, 1, 0.4, 10, "img/flower_red.jpg");
+        this.materials['yellow'] = new Material(Color(0.5, 0.5, 0.5, 1.0), 0.4, 1, 0.4, 10, "img/flower_yellow.jpg");
+        this.materials['blue'] = new Material(Color(0.5, 0.5, 0.5, 1.0), 0.4, 1, 0.4, 10, "img/flower_blue.jpg");
+        this.materials['green'] = new Material(Color(0.5, 0.5, 0.5, 1.0), 0.4, 1, 0.4, 10, "img/branch_green.jpg");
+        this.materials['brown'] = new Material(Color(0.5, 0.5, 0.5, 1.0), 0.4, 1, 0.4, 10, "img/branch_brown.jpg");
 
 		this.rules["A"] = "sL[*[+ALF][-ALF]][/[+ALF][-ALF]]";
       },
@@ -31,8 +37,6 @@ Declare_Any_Class( "Scene",  // An example of a displayable object that our clas
       	this.branch_width = branchWidthInput;
       	this.branch_length = branchLengthInput;
       	this.rotation_speed = rotationSpeedInput;
-        //this.flower_color = 'blue';
-        //this.branch_color = 'brown';
         this.flower_color = flowerColorInput;
         this.branch_color = branchColorInput;
 
@@ -45,28 +49,29 @@ Declare_Any_Class( "Scene",  // An example of a displayable object that our clas
         graphics_state.lights = [];
         graphics_state.lights.push(new Light(vec4(-4, 0, 5, 1), new Color(255/255, 147/255, 41/255), 100));
 
-        var branchMaterial;
-        var flowerMaterial;
+        var branchMaterial = this.materials['brown'];
+        var flowerMaterial = this.materials['red'];
 
         // Select flower color
         if (this.flower_color == 'red') {
-            flowerMaterial = new Material(Color(0.5, 0.5, 0.5, 1.0), 0.4, 1, 0.4, 10, "img/flower_red.jpg");
+            flowerMaterial = this.materials['red'];
         }
-        else if (this.flower_color == 'yellow') {
-            flowerMaterial = new Material(Color(0.5, 0.5, 0.5, 1.0), 0.4, 1, 0.4, 10, "img/flower_yellow.jpg");
+        if (this.flower_color == 'yellow') {
+            flowerMaterial = this.materials['yellow'];
         }
-        else {
-            flowerMaterial = new Material(Color(0.5, 0.5, 0.5, 1.0), 0.4, 1, 0.4, 10, "img/flower_blue.jpg");
+        if (this.flower_color == 'blue') {
+            flowerMaterial = this.materials['blue'];
         }
 
         // Select branch color
+        if (this.branch_color == 'brown') {
+            branchMaterial = this.materials['brown'];
+        }
         if (this.branch_color == 'green') {
-            branchMaterial = new Material(Color(0.5, 0.5, 0.5, 1.0), 0.4, 1, 0.4, 10, "img/branch_green.jpg");
+            branchMaterial = this.materials['green'];
         }
-        else {
-            branchMaterial = new Material(Color(0.5, 0.5, 0.5, 1.0), 0.4, 1, 0.4, 10, "img/branch_brown.jpg");
-        }
-        
+
+        console.log(branchMaterial);
 
         ///////////////////////////////////////////////////////////////////////
         //                    GENERATE L SYSTEM TO GIVEN DEPTH               //
