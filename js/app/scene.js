@@ -24,7 +24,7 @@ Declare_Any_Class( "Scene",  // An example of a displayable object that our clas
         this.materials['red'] = new Material(Color(0.5, 0.5, 0.5, 1.0), 0.4, 1, 0.4, 10, "img/flower_red.jpg");
         this.materials['yellow'] = new Material(Color(0.5, 0.5, 0.5, 1.0), 0.4, 1, 0.4, 10, "img/flower_yellow.jpg");
         this.materials['blue'] = new Material(Color(0.5, 0.5, 0.5, 1.0), 0.4, 1, 0.4, 10, "img/flower_blue.jpg");
-        this.materials['green'] = new Material(Color(0.5, 0.5, 0.5, 1.0), 0.4, 1, 0.4, 10, "img/branch_green.jpg");
+        this.materials['green'] = new Material(Color(0.5, 0.5, 0.5, 1.0), 0.4, 1, 0.4, 10, "img/branch_green.png");
         this.materials['brown'] = new Material(Color(0.5, 0.5, 0.5, 1.0), 0.4, 1, 0.4, 10, "img/branch_brown.jpg");
 
 		this.rules["A"] = "sL[*[+ALF][-ALF]][/[+ALF][-ALF]]";
@@ -91,7 +91,7 @@ Declare_Any_Class( "Scene",  // An example of a displayable object that our clas
         var d = 0.001 * this.shared_scratchpad.graphics_state.animation_delta_time;
         this.global_rotation = (this.global_rotation + this.rotation_speed*d) % 360;
 		var m_matrix = rotation(this.global_rotation, [0, 1, 0]);
-        m_matrix = mult(translation(0, -6, 0), m_matrix);
+        m_matrix = mult(translation(0, -4, 2), m_matrix);
 
 		// Generate Tree
 		for (var x = 0; x < l_system.length; x++) {
