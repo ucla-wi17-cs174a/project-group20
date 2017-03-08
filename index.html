@@ -13,14 +13,15 @@ index.html - The web page document containing the canvas (drawing surface), that
 <script type="text/javascript" src="js/includes/subdivisionsphere.js"     ></script>
 
 <script type="text/javascript">
-	var scaleInput = 0.2;
-	var flowerSizeInput = 0.2;
-	var branchWidthInput = 0.2;
-	var branchLengthInput = 2;
-	var branchAngleInput = 30;
-	var rotationSpeedInput = 30;
-	var flowerColorInput = 'blue';
-	var branchColorInput = 'brown';
+	// Global Variables
+	var scaleInput;
+	var flowerSizeInput;
+	var branchWidthInput;
+	var branchLengthInput;
+	var branchAngleInput;
+	var rotationSpeedInput;
+	var flowerColorInput;
+	var branchColorInput;
 </script>
 
 <script type="text/javascript" src="js/app/setValues.js"	></script>
@@ -29,6 +30,17 @@ index.html - The web page document containing the canvas (drawing surface), that
 <script type="text/javascript"> "use strict"  
   window.onload = function init()           // ********************* OUR WHOLE PROGRAM'S ENTRY POINT ********************* 
     {	
+    	document.getElementById("formula").value = "sL[*[+ALF][-ALF]][/[+ALF][-ALF]]";
+
+    	scaleInput = document.getElementById("scale").value;
+    	flowerSizeInput = document.getElementById("flowerSize").value;
+    	branchWidthInput = document.getElementById("branchWidth").value;
+    	branchLengthInput = document.getElementById("branchLength").value;
+    	branchAngleInput = document.getElementById("branchAngle").value;
+    	rotationSpeedInput = document.getElementById("rotationSpeed").value;
+		flowerColorInput = 'blue';
+		branchColorInput = 'brown';
+
 		document.getElementById("scale").addEventListener("input", setScaleAmt, false);
 		document.getElementById("flowerSize").addEventListener("input", setFlowerSize, false);
 		document.getElementById("branchWidth").addEventListener("input", setBranchWidth, false);
@@ -82,12 +94,21 @@ index.html - The web page document containing the canvas (drawing surface), that
 				<tbody>
 					<tr>
 	 					<td class="canvas">
-	  						<canvas id="gl-canvas" style="border: none;" width="600" height="500"></canvas> <!-- 960, 540-->
+	  						<canvas id="gl-canvas" style="border-style: solid;" width="600" height="500"></canvas> <!-- 960, 540 -->
 						</td>
 						<td>
 							<div class="settings">
 								<table>
 									<tbody>
+										<tr>
+											<td><br></td>
+										</tr>
+										<tr>
+											<td><b>Formula:</b></td>
+											<td>
+												<input type="text" id="formula"><br>
+											</td>
+										</tr>
 										<tr>
 											<td><br></td>
 										</tr>
@@ -103,7 +124,7 @@ index.html - The web page document containing the canvas (drawing surface), that
 										<tr>
 											<td><b>Flower Size:</b></td>
 											<td>
-												<input type="range" id="flowerSize" value="0.2" min="0.1" max="2" step="0.01">
+												<input type="range" id="flowerSize" value="0.3" min="0.1" max="2" step="0.01">
 											</td>
 										</tr>
 										<tr>
@@ -121,7 +142,7 @@ index.html - The web page document containing the canvas (drawing surface), that
 										<tr>
 			  								<td><b>Branch Length:</b></td>
 			  								<td>
-			  									<input type="range" id="branchLength" value="2" min="0.5" max="5" step="0.1">
+			  									<input type="range" id="branchLength" value="2.5" min="0.5" max="5" step="0.1">
 											</td>
 										</tr>
 										<tr>

@@ -31,6 +31,8 @@ Declare_Any_Class( "Scene",  // An example of a displayable object that our clas
       },
     'display': function(time)
       {
+      	this.set_formula("A", document.getElementById("formula").value);
+
       	this.scale_amt = 0.5-scaleInput;
       	this.flower_scale = flowerSizeInput;
       	this.rotate_amt = branchAngleInput;
@@ -70,8 +72,6 @@ Declare_Any_Class( "Scene",  // An example of a displayable object that our clas
         if (this.branch_color == 'green') {
             branchMaterial = this.materials['green'];
         }
-
-        console.log(branchMaterial);
 
         ///////////////////////////////////////////////////////////////////////
         //                    GENERATE L SYSTEM TO GIVEN DEPTH               //
@@ -174,7 +174,7 @@ Declare_Any_Class( "Scene",  // An example of a displayable object that our clas
       },
 
 	'set_formula': function(ruleID, rule) {
-		this.rules[ruleID] = rule;
+		this.rules[ruleID] = rule;				//  + "." ?
 	},
 
 	'generate_system': function(init_string, depth) {
