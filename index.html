@@ -22,6 +22,8 @@ index.html - The web page document containing the canvas (drawing surface), that
 	var rotationSpeedInput;
 	var flowerColorInput;
 	var branchColorInput;
+    var depthInput;
+    var newFormulaInput;
 </script>
 
 <script type="text/javascript" src="js/app/setValues.js"	></script>
@@ -32,6 +34,7 @@ index.html - The web page document containing the canvas (drawing surface), that
     {	
     	document.getElementById("formula").value = "sL[*[+ALF][-ALF]][/[+ALF][-ALF]]";
 
+        depthInput = document.getElementById("depth").value;
     	scaleInput = document.getElementById("scale").value;
     	flowerSizeInput = document.getElementById("flowerSize").value;
     	branchWidthInput = document.getElementById("branchWidth").value;
@@ -40,7 +43,9 @@ index.html - The web page document containing the canvas (drawing surface), that
     	rotationSpeedInput = document.getElementById("rotationSpeed").value;
 		flowerColorInput = 'blue';
 		branchColorInput = 'brown';
+        newFormulaInput = false;
 
+		document.getElementById("depth").addEventListener("input", setDepth, false);
 		document.getElementById("scale").addEventListener("input", setScaleAmt, false);
 		document.getElementById("flowerSize").addEventListener("input", setFlowerSize, false);
 		document.getElementById("branchWidth").addEventListener("input", setBranchWidth, false);
@@ -106,7 +111,17 @@ index.html - The web page document containing the canvas (drawing surface), that
 										<tr>
 											<td><b>Formula:</b></td>
 											<td>
-												<input type="text" id="formula"><br>
+												<input type="text" id="formula">
+                                                <input type="button" value="Set" onmousedown="setNewFormulaFlag(true)" onmouseup="setNewFormulaFlag(false)"><br>
+											</td>
+										</tr>
+										<tr>
+											<td><br></td>
+										</tr>
+										<tr>
+											<td><b>Recursion Depth:</b></td>
+											<td>
+												<input type="range" id="depth" value="3" min="0" max="5" step="1">
 											</td>
 										</tr>
 										<tr>
@@ -197,8 +212,43 @@ index.html - The web page document containing the canvas (drawing surface), that
 		</div>
 
 		<footer>
-            <p>Camera controls are: W/A/S/D to pan up/left/down/right, I/O to zoom in/out, R to reset to default camera view</p>
 			<p>Created by Adam Jones, Wenlong Xiong, and Nathan Yang for UCLA's Winter 2017 CS 174A</p>
+            <br>
+            <p><u>WebGL Program Instructions</u><p>
+            <p>Camera controls are: W/A/S/D to pan up/left/down/right, I/O to zoom in/out, R to reset to default camera view</p>
+            <p>This WebGL program simulates different tree growths by using Lindenmayer-systems to recursively generate the sequence of branches and "flowers" that make up a plant. Each tree is defined by several different properties - the primary ones are the base L-system formula and recursion depth. There is also the option of changing the scaling factor, flower size, branch width, branch length, branch angle, and tree display rotation speed via sliders. 5 buttons also can change the flower color and branch color.</p>
+            <br>
+            <p><u>Lindenmayer Systems</u></p>
+            <p>Lindenmayer systems are a type of formal grammar that is used to transform one string into another. You can define a number of rules that transform a substring into another, an initial value, and a max depth to recurse to. To generate a final string, you start with the initial value, and for N iterations (N being the max depth), you transform all substrings matching your rules.</p>
+            <p>For example, given the initial seed "A", the rules ("A ==> B[A]C"), and a max depth of 3, we get:</p>
+            <p>
+            <pre>
+            n = 0: A<br>
+            n = 1: B[A]C <br>
+            n = 2: B[B[A]C]C <br>
+            n = 3: B[B[B[A]C]C
+            </pre>
+            </p>
+            <p>Our final string at n = 3 iterations would be "B[B[B[A]C]C]C. Of course, if there were rules for B or C, the final string would be different as well. In our WebGL program however, we only use a single rule.</p>
+            <br>
+            <p><u>L-System Formula Syntax / Generating Trees</u></p>
+            <p>
+            The initial seed string to be recursed on is "A". The formula text box transform the string "A" into the contexts of the text box. Once the final string is generated via our L-system recursion, we can draw a tree by intepreting the different characters in the string as actions such as "draw branch in this direction", "draw flower", "rotate direction by X degrees".<br>
+            <br>
+            The following characters represent: <br>
+            <pre>
+            L:     Draws a branch at the current point in the current direction. Moves your 'point' to the end of the branch. <br>
+            F:     Draws a flower at the current point. <br>
+            *, /:  Rotates your draw direction along the X axis (relative to the current direction) by X degrees.<br>
+            \<, \>:  Rotates your draw direction along the Y axis (relative to the current direction) by X degrees.<br>
+            +, -:  Rotates your draw direction along the Z axis (relative to the current direction) by X degrees.<br>
+                * X is the branch angle, changeable by the slider <br>
+            S, s:  Increases or decreases the current scale. Branch size and flower size are affected by the scale factor. <br>
+            [:     Stores the current point position, draw direction, and scale factor on a stack. <br>
+            ]:     Loads the previously stored point position, draw direction, and scale factor from the stack. <br>
+            </pre>
+            </p>
+            <br>
 		</footer>
 	</body>
 </html>

@@ -1,3 +1,7 @@
+function setNewFormulaFlag(flag) {
+    newFormulaInput = flag;
+}
+
 function setScaleAmt() {
 	scaleInput = document.getElementById("scale").value;
 }
@@ -20,6 +24,10 @@ function setBranchAngle() {
 
 function setRotationSpeed() {
 	rotationSpeedInput = document.getElementById("rotationSpeed").value;
+}
+
+function setDepth() {
+    depthInput = document.getElementById("depth").value;
 }
 
 function setFlowerColor(color) {

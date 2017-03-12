@@ -8,6 +8,10 @@ Declare_Any_Class( "Scene",  // An example of a displayable object that our clas
 			rules: [],
 			matrix_stack: [],
 			scale_stack: [],
+            formula_rest: false,
+
+            depth: depthInput,
+            new_formula: false,
 			scale_amt: scaleInput, // S / s scale amount (0 - 0.5)
 			rotate_amt: branchAngleInput, // branch angle (0 - 180)
             branch_width: branchWidthInput, // radius of branch (0.01 - 0.5)
@@ -31,7 +35,19 @@ Declare_Any_Class( "Scene",  // An example of a displayable object that our clas
       },
     'display': function(time)
       {
-      	this.set_formula("A", document.getElementById("formula").value);
+        this.reset_stacks();
+
+        if (this.formula_reset && this.new_formula) {
+            this.formula_reset = true;
+        }
+        else {
+            this.formula_reset = false;
+            if (this.new_formula && !this.formula_reset) {
+                this.set_formula("A", document.getElementById("formula").value);
+            }
+        }
+
+        this.new_formula = newFormulaInput;
 
       	this.scale_amt = 0.5-scaleInput;
       	this.flower_scale = flowerSizeInput;
@@ -41,6 +57,7 @@ Declare_Any_Class( "Scene",  // An example of a displayable object that our clas
       	this.rotation_speed = rotationSpeedInput;
         this.flower_color = flowerColorInput;
         this.branch_color = branchColorInput;
+        this.depth = depthInput;
 
         var graphics_state  = this.shared_scratchpad.graphics_state,
             branch_model_transform = mat4(),
@@ -76,10 +93,7 @@ Declare_Any_Class( "Scene",  // An example of a displayable object that our clas
         ///////////////////////////////////////////////////////////////////////
         //                    GENERATE L SYSTEM TO GIVEN DEPTH               //
         ///////////////////////////////////////////////////////////////////////
-        var l_system = this.generate_system("A", 3);
-        //console.log(l_system);
-        //var l_system = "LF+LF+LF";
-        //var l_system = "sL[+ALF][-ALF]";
+        var l_system = this.generate_system("A", this.depth);
 
         ///////////////////////////////////////////////////////////////////////
         //                          RENDER L SYSTEM                          //
@@ -95,6 +109,9 @@ Declare_Any_Class( "Scene",  // An example of a displayable object that our clas
 
 		// Generate Tree
 		for (var x = 0; x < l_system.length; x++) {
+            if (this.formula_reset)
+                break;
+
 			var c = l_system[x];
 			switch(c) {
 				case "":
@@ -111,8 +128,15 @@ Declare_Any_Class( "Scene",  // An example of a displayable object that our clas
 					this.state_push(m_matrix, m_scale);
 					break;
 				case "]":
-					m_matrix = this.matrix_pop();
-					m_scale = this.scale_pop();
+                    if (this.scale_stack.length == 0 || this.matrix_stack.length == 0) {
+                        alert("Invalid formula, formula is cleared");
+                        this.set_formula("A", "");
+                        this.formula_reset = true;
+                    }
+                    else {
+                        m_matrix = this.matrix_pop();
+                        m_scale = this.scale_pop();
+                    }
 					break;
 
 				case "F":
@@ -171,6 +195,7 @@ Declare_Any_Class( "Scene",  // An example of a displayable object that our clas
 					break;
 			}
 		}
+        this.reset_stacks();
       },
 
 	'set_formula': function(ruleID, rule) {
@@ -197,10 +222,14 @@ Declare_Any_Class( "Scene",  // An example of a displayable object that our clas
 		this.scale_stack.push(scale);
 	},
 	'matrix_pop': function() {
-		return this.matrix_stack.pop();
+        return this.matrix_stack.pop();
 	},
 	'scale_pop': function() {
 		return this.scale_stack.pop();
-	}
+	},
+    'reset_stacks': function() {
+        this.matrix_stack = [];
+        this.scale_stack = [];
+    }
 
   }, Animation );
