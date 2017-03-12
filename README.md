@@ -5,7 +5,7 @@ Created by Wenlong Xiong, Adam Jones, Nathan Yang
 ## Overview
 This WebGL program simulates different tree growths by using Lindenmayer-systems to recursively generate the sequence of branches and "flowers" that make up a plant. Each tree is defined by several different properties - the primary ones are the base L-system formula and recursion depth. There is also the option of changing the scaling factor,  flower size, branch width, branch length, branch angle, and tree display rotation speed via sliders. 5 buttons also can change the flower color and branch color.  
 
-Please grade tag version v1.0.
+Please grade tag version v1.1.
 
 ## Camera controls
 ```
