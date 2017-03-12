@@ -237,17 +237,27 @@ index.html - The web page document containing the canvas (drawing surface), that
             <br>
             The following characters represent: <br>
             <pre>
+	*  (X is the branch angle, changeable by the slider)
+	** (Y is the scaling factor, changeable by the slider)
             L:     Draws a branch at the current point in the current direction. Moves your 'point' to the end of the branch. <br>
             F:     Draws a flower at the current point. <br>
             *, /:  Rotates your draw direction along the X axis (relative to the current direction) by X degrees.<br>
             \<, \>:  Rotates your draw direction along the Y axis (relative to the current direction) by X degrees.<br>
             +, -:  Rotates your draw direction along the Z axis (relative to the current direction) by X degrees.<br>
-                * X is the branch angle, changeable by the slider <br>
-            S, s:  Increases or decreases the current scale. Branch size and flower size are affected by the scale factor. <br>
+            S, s:  Increases or decreases the current scale by Y. Branch size and flower size are affected by the scale factor. <br>
             [:     Stores the current point position, draw direction, and scale factor on a stack. <br>
             ]:     Loads the previously stored point position, draw direction, and scale factor from the stack. <br>
+				*  (X is the branch angle, changeable by the slider) <br>
+				** (Y is the scaling factor, changeable by the slider) <br>
             </pre>
             </p>
+            <p><u>EXAMPLE FORMULAS</u></p>
+            <p>
+            <pre>
+            Vine: sL/&#60;AL[+A/LF]
+            Pine Tree: sL[+LF][-LF][*LF][/LF][A]LF
+            Default Tree: sL[*[+ALF][-ALF]][/[+ALF][-ALF]]
+            </pre></p>
             <br>
 		</footer>
 	</body>

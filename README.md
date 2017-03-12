@@ -21,7 +21,7 @@ For example, given the initial seed "A", the rules ("A ==> B[A]C"), and a max de
   n = 2:   B[B[A]C]C
   n = 3:   B[B[B[A]C]C
 ```
-Our final string at n = 3 iterations would be "B[B[B[A]C]C]C. Of course, if there were rules for B or C, the final string would be different as well. In our WebGL program however, we only use a single rule.    
+Our final string at n = 3 iterations would be "B[B[B[A]C]C]C. Of course, if there were rules for B or C, the final string would be different as well. In our WebGL program however, we only use a single rule, A.    
 
 ## L-System Formula Syntax / Generating Trees
 The initial seed string to be recursed on is "A". The formula text box transform the string "A" into the contexts of the text box. Once the final string is generated via our L-system recursion, we can draw a tree by intepreting the different characters in the string as actions such as "draw branch in this direction", "draw flower", "rotate direction by X degrees".
