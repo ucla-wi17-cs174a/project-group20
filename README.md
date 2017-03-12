@@ -5,13 +5,15 @@ Created by Wenlong Xiong, Adam Jones, Nathan Yang
 ## Overview
 This WebGL program simulates different tree growths by using Lindenmayer-systems to recursively generate the sequence of branches and "flowers" that make up a plant. Each tree is defined by several different properties - the primary ones are the base L-system formula and recursion depth. There is also the option of changing the scaling factor,  flower size, branch width, branch length, branch angle, and tree display rotation speed via sliders. 5 buttons also can change the flower color and branch color.  
 
+Please grade tag version v1.0.
+
 ## Camera controls
 ```
 W/A/S/D:  Pan up/left/down/right
 I/O:      Zoom in/out
 R:        Reset to default camera view
 ```
-  
+
 ## Lindenmayer Systems  
 Lindenmayer systems are a type of formal grammar that is used to transform one string into another. You can define a number of rules that transform a substring into another, an initial value, and a max depth to recurse to. To generate a final string, you start with the initial value, and for N iterations (N being the max depth), you transform  all substrings matching your rules.
 For example, given the initial seed "A", the rules ("A ==> B[A]C"), and a max depth of 3, we get:  
