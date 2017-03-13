@@ -134,3 +134,35 @@ Declare_Any_Class( "Text_Line", // Draws a rectangle textured with images of ASC
         gl.bufferData( gl.ARRAY_BUFFER, flatten(this.texture_coords), gl.STATIC_DRAW );
       }
   }, Shape )
+
+Shape.prototype.normalize_positions = function()
+  { var average_position = vec3(), average_length = 0;
+    for( var i = 0; i < this.positions.length; i++ ) average_position  =  add( average_position, scale_vec( 1/this.positions.length, this.positions[i] ) );
+    for( var i = 0; i < this.positions.length; i++ ) this.positions[i] =  subtract( this.positions[i], average_position );
+    for( var i = 0; i < this.positions.length; i++ ) average_length    += 1/this.positions.length * length( this.positions[i] );
+    for( var i = 0; i < this.positions.length; i++ ) this.positions[i] =  scale_vec( 1/average_length, this.positions[i] );
+  }
+
+Declare_Any_Class( "Shape_From_File",       // A versatile standalone shape that imports all its arrays' data from an
+  { populate: function( filename )          // .obj file.  See webgl-obj-loader.js for the rest of the relevant code.
+      {
+        this.filename = filename;
+        this.webGLStart = function(meshes)
+          {
+            for( var j = 0; j < meshes.mesh.vertices.length/3; j++ )
+            {
+              this.positions.push( vec3( meshes.mesh.vertices[ 3*j ], meshes.mesh.vertices[ 3*j + 1 ], meshes.mesh.vertices[ 3*j + 2 ] ) );
+              
+              this.normals.push( vec3( meshes.mesh.vertexNormals[ 3*j ], meshes.mesh.vertexNormals[ 3*j + 1 ], meshes.mesh.vertexNormals[ 3*j + 2 ] ) );
+              this.texture_coords.push( vec2( meshes.mesh.textures[ 2*j ],meshes.mesh.textures[ 2*j + 1 ]  ));
+            }
+            this.indices  = meshes.mesh.indices;
+            this.normalize_positions();
+            this.copy_onto_graphics_card();
+            this.ready = true;
+          }                                                 // Begin downloading the mesh, and once it completes return control to our webGLStart function
+        OBJ.downloadMeshes( { 'mesh' : filename }, ( function(self) { return self.webGLStart.bind(self) } ( this ) ) );
+      },
+    draw: function( graphicsState, model_transform, material )
+      { if( this.ready ) Shape.prototype.draw.call(this, graphicsState, model_transform, material );    }   
+  }, Shape )

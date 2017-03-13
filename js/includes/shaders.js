@@ -148,12 +148,13 @@ Declare_Any_Class( "Phong_or_Gouraud_Shader",
             }
 
             vec4 tex_color = texture2D( texture, fTexCoord );
+            vec3 bumped_N  = normalize( N + tex_color.rgb - .5*vec3(1,1,1) );
             gl_FragColor = tex_color * ( USE_TEXTURE ? ambient : 0.0 ) + vec4( shapeColor.xyz * ambient, USE_TEXTURE ? shapeColor.w * tex_color.w : shapeColor.w ) ;
             for( int i = 0; i < N_LIGHTS; i++ )
             {
               float attenuation_multiplier = 1.0 / (1.0 + attenuation_factor[i] * (dist[i] * dist[i]));
-              float diffuse  = max(dot(L[i], N), 0.0);
-              float specular = pow(max(dot(N, H[i]), 0.0), smoothness);
+              float diffuse  = max(dot(L[i], bumped_N), 0.0);
+              float specular = pow(max(dot(bumped_N, H[i]), 0.0), smoothness);
               
               gl_FragColor.xyz += attenuation_multiplier * (shapeColor.xyz * diffusivity * diffuse  + lightColor[i].xyz * shininess * specular );
             }
