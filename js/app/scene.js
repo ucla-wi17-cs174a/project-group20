@@ -2,7 +2,7 @@ Declare_Any_Class( "Scene",  // An example of a displayable object that our clas
   { 'construct': function( context )
       { this.shared_scratchpad    = context.shared_scratchpad;
         shapes_in_use.branch = new Capped_Cylinder(1, 6);
-        shapes_in_use.flower = new Shape_From_File("../../assets/flower.obj");
+        shapes_in_use.flower = new Shape_From_File("https://ucla-wi17-cs174a.github.io/project-group20/assets/flower.obj");
 
 		this.define_data_members( {
 			rules: [],
